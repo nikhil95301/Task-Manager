@@ -1,6 +1,8 @@
 const validator = require('validator')
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
+const Task = require('./task.js')
+const Taskrouter = require('./taskrouter.js')
 const userSchema  = new mongoose.Schema({
 name:{
     type:String,
@@ -35,25 +37,31 @@ branch:{
     ignoreCase:true,
     required:true
 },  
-tokens:[{
     token:{
         type:String
     }
-}]
+},{
+timestamps:true
 })
+userSchema.virtual('tasks',{
+    ref:'Task',
+localField:'_id',
+foreignField:'owner'
+})
+userSchema.methods.toJSON = function(){
+    const user =this
+    const userObject = user.toObject()
+    delete userObject.password
+    delete userObject.token
+    return userObject
+}
 userSchema.methods.generateAuthToken = async function(){
+    
     const user = this
     token = jwt.sign({_id:user._id.toString()},'dfkjdfbjn')
-    user.tokens=user.tokens.concat({token})
+    user.token=token
     await user.save()
     return token
 }
-userSchema.methods.toJSON = function(){
-    const user = this
-    const userObject = user.toObject()
-    delete userObject.password
-    delete  userObject.branch
-    delete user.tokens
-    return userObject
-}
-module.exports=(mongoose.model('User',userSchema))
+
+module.exports=(mongoose.model('Uer',userSchema))

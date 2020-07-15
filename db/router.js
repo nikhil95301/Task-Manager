@@ -2,6 +2,7 @@ const express = require('express')
 const User = require('./model.js')
 const bcrypt = require('bcryptjs')
 const auth = require('./middleware.js')
+const { findById } = require('./task.js')
 const router = new express.Router()
 router.post('/user', async (req,res) =>{
     const user = new User(req.body)
@@ -28,6 +29,7 @@ router.post('/user', async (req,res) =>{
     try{
 
     const t = await user.generateAuthToken()
+    req.user = user
     res.status(201).send({user,t})
     }
     catch(e){
@@ -40,7 +42,9 @@ router.post('/user/login',async (req,res) =>{
 const user = await User.findOne({email:req.body.email,password:req.body.password})
 if(user){
  const t = await user.generateAuthToken()
+ req.user = user
   res.status(200).send({user,t}) 
+  // console.log(req.user)
 }
 else{
 res.status(500).send('Not found')
@@ -51,26 +55,35 @@ res.status(500).send('Not found')
     res.status(400).send(e)
   }
 })
-router.post('/user/logout',auth, async (req,res) =>{
-try{
+// router.post('/user/logout',auth, async (req,res) =>{
+// try{
 
-  //req.user.tokens
- const user = req.user
- console.log(user)
- res.status(200).send(req.user)
-}
-catch(e){
-  console.log(e)
-res.status(500).send()
-}
-})
+//   //req.user.tokens
+//  const user = req.user
+//  console.log(user)
+//  res.status(200).send(req.user)
+// }
+// catch(e){
+//   console.log(e)
+// res.status(500).send()
+// }
+// })
 router.get('/user/get',auth,  async (req,res) =>{
   try{
-    res.send(req.user)
+   const token = req.token
+  // console.log(req.token)
+ //console.log(token._id)
+ let user = User.findOne({_id:token._id})
+user = (await user).toJSON()
+ console.log(user)
+// const m =await user.toString()
+// res.send(m)
+res.send(user)
   }
   catch(e){
     console.log(e)
     res.send(e)
   }
 })
+
 module.exports = router
