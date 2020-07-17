@@ -22,8 +22,9 @@ app.listen(port,(e) =>{
     console.log('port is on '+port)
 })
 const main = async () =>{
-const user = await User.findById('5f01fe77a07ae5095c50d790')
+const user = await User.findById('5f111ddd8a87ca1c10fb2644')
+console.log(typeof(user))
  await user.populate('tasks').execPopulate()
-//console.log(user.tasks)
+console.log(user.tasks)
 }
 //main()

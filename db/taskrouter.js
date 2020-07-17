@@ -40,17 +40,4 @@ if(task)
         res.status(500).send('something went wrong from task router')
     }
 })
-router.get('/tasks',auth, async(req,res) =>{
-try{
-    console.log(req.token._id)
-    const user = await User.find({_id:req.token._id})
-    req.user = user
-    await req.user.populate('tasks').exePopulate()
-    res.send(req.user.tasks)
-}
-catch(e){
-    console.log(e)
-res.status(500).send('Something went wrong')
-}
-})
 module.exports = router

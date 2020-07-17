@@ -43,11 +43,15 @@ branch:{
 },{
 timestamps:true
 })
+
+
 userSchema.virtual('tasks',{
     ref:'Task',
 localField:'_id',
 foreignField:'owner'
 })
+
+
 userSchema.methods.toJSON = function(){
     const user =this
     const userObject = user.toObject()
@@ -55,13 +59,17 @@ userSchema.methods.toJSON = function(){
     delete userObject.token
     return userObject
 }
+
+
 userSchema.methods.generateAuthToken = async function(){
     
     const user = this
     token = jwt.sign({_id:user._id.toString()},'dfkjdfbjn')
     user.token=token
     await user.save()
+    
     return token
 }
 
-module.exports=(mongoose.model('Uer',userSchema))
+const User = mongoose.model('User',userSchema )
+module.exports = User

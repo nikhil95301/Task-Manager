@@ -13,10 +13,18 @@ const taskSchema = new mongoose.Schema({
     owner:{
 type:mongoose.Schema.Types.ObjectId,
 required:true,
-ref:'Uer'
+ref:'User'
     }
 },{
     timestamps:true
 })
+
+// taskSchema.methods.popul = async function(){
+    
+//     const user = this
+//     await user.populate('tasks').exePopulate()
+    
+//     return user.tasks
+// }
 const Task = mongoose.model('Task',taskSchema )
 module.exports = Task

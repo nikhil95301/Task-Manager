@@ -2,7 +2,7 @@ const express = require('express')
 const User = require('./model.js')
 const bcrypt = require('bcryptjs')
 const auth = require('./middleware.js')
-const { findById } = require('./task.js')
+const Task = require('./task.js')
 const router = new express.Router()
 router.post('/user', async (req,res) =>{
     const user = new User(req.body)
@@ -85,5 +85,20 @@ res.send(user)
     res.send(e)
   }
 })
+router.get('/tasks',auth,  async(req,res) =>{
+  try{
+    console.log(req.token._id);
 
+		const user = await User.findOne({ _id: req.token._id });
+    req.user = user;
+    console.log(user)
+		await user.populate('tasks').exePopulate();
+    res.send(req.user.tasks);
+    
+  }
+  catch(e){
+      console.log(e)
+  res.status(500).send('Something went wrong')
+  }
+  })
 module.exports = router
