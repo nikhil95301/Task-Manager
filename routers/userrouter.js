@@ -2,6 +2,7 @@ const User = require('../models/usermodel')
 const express = require('express')
 const  app = new express.Router()
 const auth = require('../middleware/auth')
+
 app.post('/user',async(req,res) =>{
   
     const user = new User(req.body)
@@ -25,4 +26,5 @@ app.get('/usertasks',auth, async(req,res) =>{
     console.log(user.tasks)
     res.send(user.tasks)
 })
+
 module.exports = app
