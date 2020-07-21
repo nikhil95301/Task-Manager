@@ -1,23 +1,22 @@
 {
-  "name": "corona",
+  "name": "manager",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "start": "node db/mongoose.js",
-    "dev": "nodemon db/index.js"
-  },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "bcrypt": "^4.0.1",
-    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "init": "^0.1.2",
     "jsonwebtoken": "^8.5.1",
-    "mongodb": "^3.5.9",
-    "mongoose": "^5.9.21",
+    "mongoose": "^5.9.25",
     "nodemon": "^2.0.4",
     "validator": "^13.1.1"
-  }
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node db/mongoose.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC"
 }
