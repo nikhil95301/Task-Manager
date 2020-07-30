@@ -16,6 +16,5 @@ app.post('/tasks',auth,(req,res) =>{
 catch(e){
 console.log('Something went wrong, see in console')
 }
-})
-
+})  
 module.exports = app
