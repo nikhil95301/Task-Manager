@@ -3,6 +3,8 @@ const express = require('express')
 const  app = new express.Router()
 const auth = require('../middleware/auth')
 const multer = require('multer')
+const nodemailer = require('nodemailer')
+const otp = 37634746
 app.post('/user',async(req,res) =>{
   
     const user = new User(req.body)
@@ -78,4 +80,23 @@ app.delete('/users/me/avatar',auth,async(req,res) =>{
     await req.user.save()
     res.status(200).send('photo is deleted')
 })
+app.post('/users/forgotPassword',async(req,res) =>{
+    const email = req.body.email
+  const transporter = nodemailer.createTransport({
+      service:'Gmail',
+      auth:{
+            user:'as3831843@gmail.com',
+          pass:'Nikhil1810013'
+      }
+  })
+const  mailOptions = {
+    from: 'Nikhil conatus',
+    to: email,
+    subject: "ghhg",
+    text: `your otp is ${otp}. Sir Otp JAne laga hai!`
+  }
+     transporter.sendMail(mailOptions)
+     res.status(200).send('SUcceessssadsadasd')
+})
+
 module.exports = app
