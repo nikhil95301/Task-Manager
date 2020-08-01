@@ -16,7 +16,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node db/mongoose.js",
+    "start": "node index.js",
     "dev": " nodemon index.js"
   },
   "author": "",
