@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
-
+const sc = process.env.secret
 const userSchema = new mongoose.Schema({
      name:{
          type:String,
@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods.generateAuthToken = async function() {
     const user =this
-const token = jwt.sign({_id:user._id.toString()},'nikhilBawa')
+const token = jwt.sign({_id:user._id.toString()},sc)
 user.token = token
 // await user.save()
 return token
